@@ -5,33 +5,53 @@
 
 Ball[] balls; //array of the balls
 
-void setup(){
+void setup() {
   size(600, 600); //minimum size requirements
-  background(0,0,0); //black background
+  background(0, 0, 0); //black background
   balls = new Ball[(int)random(25, 36)]; //random amount of balls created
-  
-  for (int x = 0;x < balls.length;x++){
+
+  for (int x = 0; x < balls.length; x++) {
     balls[x]= new Ball(); //initialize balls
   } //end for loop
-  
 }//end setup()
 
-void draw(){
- clear(); //update ball location
- for (Ball currBall: balls){
-   fill(currBall.myC); //make the balls have a randomly chosen color
-   ellipse(currBall.x,currBall.y,currBall.radius,currBall.radius); //make the balls
-   
-   if (currBall.cX + currBall.x >= width || currBall.cX + currBall.x <=0) { //ball goes off the screen horizontally
-     currBall.cX = currBall.cX * -1; //make ball turn around
-   }
-   
-   if (currBall.cY + currBall.y >= height || currBall.cY + currBall.y <=0) { //ball goes off the screen vertically
-     currBall.cY = currBall.cY * -1; //make ball turn around
-   }
-   
-   currBall.x = currBall.x + currBall.cX; //update ball position
-   currBall.y = currBall.y + currBall.cY; //update ball position
-   
+void draw() {
+  clear(); //update ball location
+  for (Ball currBall : balls) {
+    fill(currBall.myC); //make the balls have a randomly chosen color
+    ellipse(currBall.x, currBall.y, currBall.radius, currBall.radius); //make the balls
+    if (currBall.state == Ball.MOVING) {
+      if (currBall.cX + currBall.x >= width || currBall.cX + currBall.x <=0) { //ball goes off the screen horizontally
+        currBall.cX = currBall.cX * -1; //make ball turn around
+      }
+
+      if (currBall.cY + currBall.y >= height || currBall.cY + currBall.y <=0) { //ball goes off the screen vertically
+        currBall.cY = currBall.cY * -1; //make ball turn around
+      }
+
+      currBall.x = currBall.x + currBall.cX; //update ball position
+      currBall.y = currBall.y + currBall.cY; //update ball position
+    }
+    if(currBall.state == Ball.GROWING){
+      if (currBall.radius <= Ball.MAX_RADIUS){
+        currBall.radius += Ball.CHANGE_FACTOR;
+      }
+      else{
+        currBall.state = Ball.SHRINKING; 
+      }
+      
+    }
+    if(currBall.state == Ball.SHRINKING){
+      if(currBall.radius >0){
+        currBall.radius -=Ball.CHANGE_FACTOR;
+      }
+      else{
+        currBall.state = Ball.DEAD; 
+      }
+    }
   } //end forEach loop
 } //end draw()
+void mouseClicked(){
+ 
+  
+}
