@@ -68,6 +68,8 @@ void mouseClicked() {
       temp[x] = balls[x];
     }
     temp[balls.length] = new Ball();
+    temp[balls.length].x = mouseX;
+    temp[balls.length].y = mouseY;
     temp[balls.length].state = Ball.GROWING;
     balls = temp;
     clicks+=1;
