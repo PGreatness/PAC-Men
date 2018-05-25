@@ -9,7 +9,7 @@ public class Ball {
   final static int SHRINKING = 2;
   final static int DEAD = 3;
   final static float MAX_RADIUS = 50;
-  final static float CHANGE_FACTOR = .25;
+  final static float CHANGE_FACTOR = 1;
   float cX; //constant velocity of ball in x
   float cY; //constant velocity of ball in y
   float x; //current position of ball, x
