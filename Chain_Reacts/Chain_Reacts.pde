@@ -22,18 +22,17 @@ void draw() {
       fill(currBall.myC); //make the balls have a randomly chosen color
       ellipse(currBall.x, currBall.y, currBall.radius, currBall.radius); //make the balls
     }
-    if (currBall.state == Ball.MOVING) {
-      if (currBall.cX + currBall.x >= width || currBall.cX + currBall.x <=0) { //ball goes off the screen horizontally
-        currBall.cX = currBall.cX * -1; //make ball turn around
+    if (currBall.state == Ball.SHRINKING || currBall.state == Ball.GROWING) {
+      for (Ball n : balls) {
+        if (n.state == Ball.MOVING) {
+          if (pow(currBall.x - n.x, 2)+pow(currBall.y - n.y, 2) < pow(currBall.radius + n.radius, 2)) {
+            n.state = Ball.GROWING;
+          }
+        }
       }
-
-      if (currBall.cY + currBall.y >= height || currBall.cY + currBall.y <=0) { //ball goes off the screen vertically
-        currBall.cY = currBall.cY * -1; //make ball turn around
-      }
-
-      currBall.x = currBall.x + currBall.cX; //update ball position
-      currBall.y = currBall.y + currBall.cY; //update ball position
     }
+    
+    
     if (currBall.state == Ball.GROWING) {
       if (currBall.radius <= Ball.MAX_RADIUS) {
         currBall.radius += Ball.CHANGE_FACTOR;
@@ -48,14 +47,17 @@ void draw() {
         currBall.state = Ball.DEAD;
       }
     }
-    if (currBall.state == Ball.SHRINKING || currBall.state == Ball.GROWING) {
-      for (Ball n : balls) {
-        if (n.state == Ball.MOVING) {
-          if (pow(currBall.x - n.x, 2)+pow(currBall.y - n.y, 2) < pow(currBall.radius + n.radius, 2)) {
-            n.state = Ball.GROWING;
-          }
-        }
+    if (currBall.state == Ball.MOVING) {
+      if (currBall.cX + currBall.x >= width || currBall.cX + currBall.x <=0) { //ball goes off the screen horizontally
+        currBall.cX = currBall.cX * -1; //make ball turn around
       }
+
+      if (currBall.cY + currBall.y >= height || currBall.cY + currBall.y <=0) { //ball goes off the screen vertically
+        currBall.cY = currBall.cY * -1; //make ball turn around
+      }
+
+      currBall.x = currBall.x + currBall.cX; //update ball position
+      currBall.y = currBall.y + currBall.cY; //update ball position
     }
   } //end forEach loop
 } //end draw()
